@@ -1,19 +1,15 @@
 <template>
   <div class="card">
-    <div class="card-header">Em que está pensando agora? 🤔</div>
+    <div class="card-header">Adicione um novo link</div>
     <div class="card-body">
-      <form action v-on:submit.prevent="newThought()">
+      <form action v-on:submit.prevent="newLink()">
         <div class="form-group">
-          <label for="thought">Agora estou pensando em:</label>
-          <input
-            type="text"
-            class="form-control"
-            name="thought"
-            v-model="description"
-            ref="description"
-          />
+          <label for="label">Nome</label>
+          <input type="text" class="form-control" name="label" v-model="label" ref="label" />
+          <label for="url">URL</label>
+          <input type="text" class="form-control" name="url" v-model="url" ref="url" />
         </div>
-        <button class="btn btn-primary">Enviar pensamento ✌️</button>
+        <button class="btn btn-primary">Adicionar Link</button>
       </form>
     </div>
   </div>
@@ -23,24 +19,27 @@
 export default {
   data() {
     return {
-      description: ""
+      label: "",
+      url: ""
     };
   },
   mounted() {
     console.log("Component mounted.");
   },
   methods: {
-    newThought() {
-      if (this.description == "") {
-        alert("Escreva um pensamento!");
+    newLink() {
+      if (this.label == "" && this.url == "") {
+        alert("Preencha todos os campos!");
       } else {
         const params = {
-          description: this.description
+          label: this.label,
+          url: this.url
         };
-        this.description = "";
-        axios.post("/thoughts", params).then(response => {
-          const thought = response.data;
-          this.$emit("new", thought);
+        this.label = "";
+        this.url = "";
+        axios.post("/links", params).then(response => {
+          const link = response.data;
+          this.$emit("new", link);
         });
       }
     }

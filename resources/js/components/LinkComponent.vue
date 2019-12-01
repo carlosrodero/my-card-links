@@ -2,10 +2,13 @@
   <div class="card mt-4">
     <div
       class="card-header"
-    >Pensado em {{ thought.created_at }} - Última atualização {{ thought.updated_at }}</div>
+    >Publicdo em {{ link.created_at }} - Última atualização {{ link.updated_at }}</div>
     <div class="card-body">
-      <input v-if="editMode" type="text" class="form-control" v-model="thought.description" />
-      <p v-else>{{ thought.description }}</p>
+      <div v-if="editMode">
+        <input type="text" class="form-control" v-model="link.label" />
+        <input type="text" class="form-control" v-model="link.url" />
+      </div>
+      <p v-else>{{ link.label }} ({{ link.url }})</p>
     </div>
     <div class="card-footer">
       <button v-if="editMode" class="btn btn-success" v-on:click="onClickUpdate()">Salvar</button>
@@ -17,7 +20,7 @@
 
 <script>
 export default {
-  props: ["thought"],
+  props: ["link"],
   data() {
     return {
       editMode: false
@@ -29,7 +32,7 @@ export default {
   },
   methods: {
     onClickDelete() {
-      axios.delete(`/thoughts/${this.thought.id}`).then(() => {
+      axios.delete(`/links/${this.link.id}`).then(() => {
         this.$emit("delete");
       });
     },
@@ -38,12 +41,13 @@ export default {
     },
     onClickUpdate() {
       const params = {
-        description: this.thought.description
+        label: this.link.label,
+        url: this.link.url
       };
-      axios.put(`/thoughts/${this.thought.id}`, params).then(response => {
+      axios.put(`/links/${this.link.id}`, params).then(response => {
         this.editMode = false;
-        const thought = response.data;
-        this.$emit("update", thought);
+        const link = response.data;
+        this.$emit("update", link);
       });
     }
   }

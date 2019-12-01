@@ -2,6 +2,6 @@
 
 @section('content')
 <div class="container">
-    <my-thought-component></my-thought-component>
+    <my-link-component></my-link-component>
 </div>
 @endsection

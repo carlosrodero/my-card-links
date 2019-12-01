@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    My Cart Links
+                    {{ $profile->name }}
                 </div>
             </div>
         </div>

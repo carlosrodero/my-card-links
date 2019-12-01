@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateThoughtsTable extends Migration
+class CreateLinksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,19 @@ class CreateThoughtsTable extends Migration
      */
     public function up()
     {
-        Schema::create('thoughts', function (Blueprint $table) {
+        Schema::create('links', function (Blueprint $table) {
             $table->bigIncrements('id');
             
-            $table->string("description");
+            $table->string("label")->nullable();
+            $table->string("url")->nullable();
+            $table->string("image")->nullable();
 
             $table->integer("user_id")->unsigned();
             
             $table->timestamps();
         });
 
-        Schema::table('thoughts', function($table) {
+        Schema::table('links', function($table) {
             $table->foreign("user_id")->references("id")->on("users");
         });
      
@@ -36,6 +38,6 @@ class CreateThoughtsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('thoughts');
+        Schema::dropIfExists('links');
     }
 }
